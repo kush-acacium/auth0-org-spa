@@ -16,12 +16,21 @@ steps:
   displayName: 'Install Node.js and npm'
 
 - script: |
+    npm install -g @angular/cli
     npm install
     npm run build
   displayName: 'npm install and build'
 
-# Publish Artifacts
-- task: PublishBuildArtifacts@1
+# Deploy
+- task: AzureStaticWebApp@0
   inputs:
-    artifactName: dist
-    pathtoPublish: 'dist'
+      app_location: "/" 
+      api_location: "api"
+      output_location: "dist/auth0-org-spa"
+  env:
+      azure_static_web_apps_api_token: $(deployment_token)
+# Publish Artifacts
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    artifactName: dist
+#    pathtoPublish: 'dist'
