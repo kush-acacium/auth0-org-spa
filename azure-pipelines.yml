@@ -16,7 +16,7 @@ steps:
     azureSubscription: 'CYPDT-Referrer-TFSPN-Deploy' # Azure DevOps Service connection name created so Azure DevOps has access to KeyVault & BlobStore.
     KeyVaultName: 'Vault-CYPDT-Dev' # Name of the KeyVault to pull secrete and config from.
     SecretsFilter: >-
-      TF-SA-Key
+      Referrer-Portal-Deployment-Token
 
 - task: NodeAndNpmTool@1
   inputs:
@@ -36,7 +36,7 @@ steps:
       api_location: "api"
       output_location: "dist/login-demo"
   env:
-      azure_static_web_apps_api_token: $(TF-SA-Key)
+      azure_static_web_apps_api_token: $(Referrer-Portal-Deployment-Token)
 # Publish Artifacts
 #- task: PublishBuildArtifacts@1
 #  inputs:
