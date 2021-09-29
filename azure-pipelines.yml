@@ -10,6 +10,14 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: AzureKeyVault@1 # Connect to KeyVault to get all of the secretes needed and store them as pipeline variables.
+  displayName: 'KeyVault fetch'
+  inputs:
+    azureSubscription: 'CYPDT-Referrer-TFSPN-Deploy' # Azure DevOps Service connection name created so Azure DevOps has access to KeyVault & BlobStore.
+    KeyVaultName: 'Vault-CYPDT-Dev' # Name of the KeyVault to pull secrete and config from.
+    SecretsFilter: >-
+      TF-SA-Key
+
 - task: NodeAndNpmTool@1
   inputs:
     versionSpec: '10.x'
@@ -28,7 +36,7 @@ steps:
       api_location: "api"
       output_location: "dist/login-demo"
   env:
-      azure_static_web_apps_api_token: $(deployment_token)
+      azure_static_web_apps_api_token: $(TF-SA-Key)
 # Publish Artifacts
 #- task: PublishBuildArtifacts@1
 #  inputs:
